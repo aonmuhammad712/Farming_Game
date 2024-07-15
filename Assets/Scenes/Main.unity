@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &256513044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -938,7 +938,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joyStick: {fileID: 1062264972}
-  playerAnimator: {fileID: 2133484744}
   moveSpeed: 50
 --- !u!114 &2133484744
 MonoBehaviour:
@@ -953,5 +952,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 907223695}
-  rendererTransform: {fileID: 907223694}
   moveSpeedMultiplayer: 40
