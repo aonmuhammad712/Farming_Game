@@ -35,6 +35,11 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    internal void StopSowAnimation()
+    {
+        animator.SetLayerWeight(1, 0);
+    }
+
     private void PlayRunAnimation()
     {
         animator.Play("Run");
@@ -43,5 +48,9 @@ public class PlayerAnimator : MonoBehaviour
     private void PlayIdleAnimation()
     {
         animator.Play("Idle");
+    }
+    public void PlaySowAnimation()
+    {
+        animator.SetLayerWeight(1, 1);
     }
 }
