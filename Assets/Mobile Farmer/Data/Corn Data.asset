@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33235d827c0aa147a04764b2cd5b8c9, type: 3}
+  m_Name: Corn Data
+  m_EditorClassIdentifier: 
+  cropPrefab: {fileID: 8015024971229844181, guid: 5a557d14b294f6b4985ddc02660077f8, type: 3}

@@ -22,7 +22,6 @@ public class PlayerAnimator : MonoBehaviour
     }
     public void ManageAnimations(Vector3 vector)
     {
-        Debug.Log(vector.magnitude);
         if(vector.magnitude > 0)
         {
             animator.SetFloat("moveSpeed", vector.magnitude * moveSpeedMultiplayer);
