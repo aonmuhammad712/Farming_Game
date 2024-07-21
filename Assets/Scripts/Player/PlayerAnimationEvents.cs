@@ -7,6 +7,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     [Header("Elements")]
     [SerializeField] private ParticleSystem seedParticles;
+    [SerializeField] private ParticleSystem waterParticles;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,5 +22,9 @@ public class PlayerAnimationEvents : MonoBehaviour
     private void PlaySeedParticles()
     {
         seedParticles.Play();
+    }
+    private void PlayWaterParticles()
+    {
+        waterParticles.Play();
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(PlayerAnimator))]
 [RequireComponent(typeof(PlayerToolSelector))]
-public class PlayerSowAbility : MonoBehaviour
+public class PlayerWaterAbility : MonoBehaviour
 {
     [Header("Elements")]
     private PlayerAnimator playerAnimator;
@@ -16,67 +16,74 @@ public class PlayerSowAbility : MonoBehaviour
     {
         playerAnimator = GetComponent<PlayerAnimator>();
         toolSelector = GetComponent<PlayerToolSelector>();
-        SeedParticles.onSeedCollided += SeedsCollidedCallback;
-        CropField.onFullySown += CropFieldFullySownCallback;
-        PlayerToolSelector.OnToolSelected += ToolSelectedCallback; 
+        WaterParticles.onWaterCollided += WaterCollidedCallback;
+        CropField.onFullySown += CropFieldFullyWateredCallback;
+        PlayerToolSelector.OnToolSelected += ToolSelectedCallback;
     }
     private void OnDestroy()
     {
-        CropField.onFullySown -= CropFieldFullySownCallback;
-        SeedParticles.onSeedCollided -= SeedsCollidedCallback;
+        CropField.onFullySown -= CropFieldFullyWateredCallback;
+        WaterParticles.onWaterCollided -= WaterCollidedCallback;
         PlayerToolSelector.OnToolSelected -= ToolSelectedCallback;
     }
 
     private void ToolSelectedCallback(PlayerToolSelector.Tool selectedTool)
     {
-        if (!toolSelector.CanSow())
-            playerAnimator.StopSowAnimation();
+        if (!toolSelector.CanWater())
+            playerAnimator.StopWaterAnimation();
     }
 
-    private void CropFieldFullySownCallback(CropField cropField)
+    private void CropFieldFullyWateredCallback(CropField cropField)
     {
         if (cropField == currentCropField)
-            playerAnimator.StopSowAnimation();
+            playerAnimator.StopWaterAnimation();
     }
 
-    private void SeedsCollidedCallback(Vector3[] seedPositions)
+    private void WaterCollidedCallback(Vector3[] waterPositions)
     {
         if (currentCropField == null)
             return;
-        currentCropField.SeedsCollidedCallback(seedPositions);
+        currentCropField.WaterCollidedCallback(waterPositions);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void EnteredCropField(CropField cropField)
     {
-        if(toolSelector.CanSow())
-        playerAnimator.PlaySowAnimation();
+        if (toolSelector.CanWater())
+        {
+            if (currentCropField == null)
+                currentCropField = cropField;
+            playerAnimator.PlayWaterAnimation();
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("cropfield") && other.GetComponent<CropField>().IsEmpty())
+        if (other.CompareTag("cropfield")   )
         {
             currentCropField = other.GetComponent<CropField>();
-            EnteredCropField(currentCropField); 
+            EnteredCropField(currentCropField);
         }
     }
     private void OnTriggerExit(Collider collision)
     {
         if (collision.CompareTag("cropfield"))
         {
-            playerAnimator.StopSowAnimation();
+            playerAnimator.StopWaterAnimation();
             currentCropField = null;
         }
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("cropfield") && other.GetComponent<CropField>().IsEmpty())
+        if (other.CompareTag("cropfield") && other.GetComponent<CropField>().IsSown())
+        {
+            currentCropField = other.GetComponent<CropField>();
             EnteredCropField(other.GetComponent<CropField>());
+        }
 
     }
 }

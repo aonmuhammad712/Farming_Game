@@ -15,6 +15,9 @@ public class CropField : MonoBehaviour
 
     [Header("Actions")]
     public static Action<CropField> onFullySown;
+    public static Action<CropField> onFullyWatered;
+    private int tileWatered;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +53,27 @@ public class CropField : MonoBehaviour
             Sow(closestCropTile);
         }
     }
-
+    internal void WaterCollidedCallback(Vector3[] waterPositions)
+    {
+        for (int i = 0; i < waterPositions.Length; i++)
+        {
+            CropTile closestCropTile = GetClosestCropTile(waterPositions[i]);
+            if (closestCropTile == null)
+                continue;
+            if (!closestCropTile.IsSown())
+            {
+                continue;
+            }
+            Water(closestCropTile);
+        }
+    }
+    private void Water(CropTile cropTile)
+    {
+        cropTile.Water();
+        tileWatered++;
+        if (tileWatered == cropTiles.Count)
+            FieldFullyWatered();
+    }
     private void Sow(CropTile cropTile)
     {
         cropTile.Sow(cropData);
@@ -63,6 +86,11 @@ public class CropField : MonoBehaviour
     {
         state = TileFieldState.Sown;
         onFullySown?.Invoke(this);
+    }
+    private void FieldFullyWatered()
+    {
+        state = TileFieldState.Watered;
+        onFullyWatered?.Invoke(this);
     }
 
     private CropTile GetClosestCropTile(Vector3 seedPosition)
@@ -90,4 +118,6 @@ public class CropField : MonoBehaviour
     {
         return state == TileFieldState.Empty;
     }
+    public bool IsWatered() =>  state == TileFieldState.Watered;
+    public bool IsSown() =>  state == TileFieldState.Sown;
 }

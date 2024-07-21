@@ -9,6 +9,7 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private Animator animator;
     [Header("Settings")]
     [SerializeField] private float moveSpeedMultiplayer;
+    [SerializeField] private ParticleSystem waterParticles;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,5 +52,15 @@ public class PlayerAnimator : MonoBehaviour
     public void PlaySowAnimation()
     {
         animator.SetLayerWeight(1, 1);
+    }
+    public void PlayWaterAnimation()
+    {
+        animator.SetLayerWeight(2, 1);
+    }
+
+    internal void StopWaterAnimation()
+    {
+        animator.SetLayerWeight(2, 0);
+        waterParticles.Stop();
     }
 }
